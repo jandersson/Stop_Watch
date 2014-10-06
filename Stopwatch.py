@@ -1,4 +1,3 @@
-__author__ = 'jonas'
 # template for "Stopwatch: The Game"
 
 # define global variables
