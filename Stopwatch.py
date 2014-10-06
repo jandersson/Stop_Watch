@@ -1,7 +1,4 @@
-# template for "Stopwatch: The Game"
-
 # define global variables
-
 
 # define helper function format that converts time
 # in tenths of seconds into formatted string A:BC.D
