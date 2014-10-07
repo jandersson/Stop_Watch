@@ -11,6 +11,8 @@ stop_hits = 0
 def format(t):
     seconds = (t/10)
     seconds_string = str(seconds % 60)
+    if (seconds%60) < 10:
+        seconds_string = "0"+seconds_string
     minutes = seconds / 60
     minutes_string = str(minutes)
     deci_seconds = t % 10
