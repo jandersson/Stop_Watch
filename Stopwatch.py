@@ -50,7 +50,7 @@ def tick():
 # define draw handler
 def draw(canvas):
     canvas.draw_text(format(time), [100, 100], 24, "White")
-    canvas.draw_text(str(stop_hits) + "/" + str(stop_counter), [50, 200], 24, "Green")
+    canvas.draw_text(str(stop_hits) + "/" + str(stop_counter), [250, 50], 24, "Green")
 # create frame
 frame = simplegui.create_frame("Stopwatch", 300, 200)
 stopwatch = simplegui.create_timer(interval, tick)
