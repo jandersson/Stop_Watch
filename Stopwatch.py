@@ -6,9 +6,11 @@ interval = 100  #100 millisecond interval for timer
 time = 0
 stop_counter = 0
 stop_hits = 0
+deci_seconds = 0
 # define helper function format that converts time
 # in tenths of seconds into formatted string A:BC.D
 def format(t):
+    global deci_seconds
     seconds = (t/10)
     seconds_string = str(seconds % 60)
     if (seconds%60) < 10:
@@ -22,12 +24,16 @@ def format(t):
 
 # define event handlers for buttons; "Start", "Stop", "Reset"
 def button_start():
-    stopwatch.start()
+    if not(stopwatch.is_running()):
+        stopwatch.start()
 
 def button_stop():
-    global stop_counter
-    stopwatch.stop()
-    stop_counter += 1
+    global stop_counter, stop_hits
+    if stopwatch.is_running():
+        stopwatch.stop()
+        stop_counter += 1
+        if deci_seconds == 0:
+            stop_hits += 1
 
 def button_reset():
     global time, stop_counter, stop_hits
@@ -39,12 +45,12 @@ def button_reset():
 # define event handler for timer with 0.1 sec interval
 def tick():
     global time
-    time = time + 1
+    time += 1
 
 # define draw handler
 def draw(canvas):
     canvas.draw_text(format(time), [100, 100], 24, "White")
-
+    canvas.draw_text(str(stop_hits) + "/" + str(stop_counter), [50, 200], 24, "Green")
 # create frame
 frame = simplegui.create_frame("Stopwatch", 300, 200)
 stopwatch = simplegui.create_timer(interval, tick)
