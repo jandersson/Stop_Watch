@@ -1,15 +1,15 @@
 import simpleguitk as simplegui
 
-# define global variables
+# Global State
 button_width = 100
 interval = 100  #100 millisecond interval for timer
 time = 0
 stop_counter = 0
 stop_hits = 0
 deci_seconds = 0
-# define helper function format that converts time
-# in tenths of seconds into formatted string A:BC.D
+
 def format(t):
+    """ Takes the time and returns a formatted time string A:BC.D"""
     global deci_seconds
     seconds = (t/10)
     seconds_string = str(seconds % 60)
@@ -22,12 +22,16 @@ def format(t):
     time_string = minutes_string + ":" + seconds_string + "." + deci_seconds_string
     return time_string
 
-# define event handlers for buttons; "Start", "Stop", "Reset"
 def button_start():
+    """Starts the stopwatch if it is not already started"""
     if not(stopwatch.is_running()):
         stopwatch.start()
 
 def button_stop():
+    """
+    Stops the stopwatch if it is running and increments the stop counter
+    If the stop occurs on a whole number then the hit counter is increased
+    """
     global stop_counter, stop_hits
     if stopwatch.is_running():
         stopwatch.stop()
@@ -36,30 +40,28 @@ def button_stop():
             stop_hits += 1
 
 def button_reset():
+    """Resets the stopwatch by setting the time to 0 and the stopwatch counters to 0"""
     global time, stop_counter, stop_hits
     stopwatch.stop()
     time = 0
     stop_counter = 0
     stop_hits = 0
 
-# define event handler for timer with 0.1 sec interval
 def tick():
+    """Timer handler which simply increments the time variable by one"""
     global time
     time += 1
 
-# define draw handler
 def draw(canvas):
+    """Draw handler which draws the formatted value of time and the score using the stopwatch counters"""
     canvas.draw_text(format(time), [100, 100], 24, "White")
     canvas.draw_text(str(stop_hits) + "/" + str(stop_counter), [250, 50], 24, "Green")
-# create frame
+
+#Register event handlers, create frame and timers, and start the frame
 frame = simplegui.create_frame("Stopwatch", 300, 200)
 stopwatch = simplegui.create_timer(interval, tick)
-
-# register event handlers
 frame.set_draw_handler(draw)
 frame.add_button("Start", button_start, button_width)
 frame.add_button("Stop", button_stop, button_width)
 frame.add_button("Reset", button_reset, button_width)
-
-# start frame
 frame.start()
